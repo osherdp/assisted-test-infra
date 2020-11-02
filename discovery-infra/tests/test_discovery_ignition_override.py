@@ -11,7 +11,7 @@ class TestDiscoveryIgnition(BaseTest):
         # Start the nodes
         # Verify the override was applied
         override_path = "/ignition/file_override"
-        test_string = "I can write tests all day long"
+        test_string = b"I can write tests all day long"
         ignition_override = {"ignition": {"version": "3.1.0"}, "storage": {"files": [
             {"path": override_path,
              "contents": {"source": "data:text/plain;base64,{}".format(base64.b64encode(test_string))}}]}}
