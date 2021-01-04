@@ -7,7 +7,6 @@ import yaml
 import waiting
 
 from oc_utils import get_operators_status
-from download_logs import download_must_gather
 from test_infra import utils, consts
 from test_infra.tools.assets import NetworkAssets
 from test_infra.helper_classes.nodes import Nodes
@@ -22,7 +21,6 @@ INSTALL_CONFIG = os.path.join(IBIP_DIR, INSTALL_CONFIG_FILE_NAME)
 INSTALLER_BINARY = os.path.join(BUILD_DIR, "openshift-install")
 EMBED_IMAGE_NAME = "installer-SNO-image.iso"
 KUBE_CONFIG = os.path.join(IBIP_DIR, "auth", "kubeconfig")
-MUST_GATHER_DIR = os.path.join(IBIP_DIR, "must-gather")
 SOSREPORT_SCRIPT = os.path.join(RESOURCES_DIR, "man_sosreport.sh")
 SSH_KEY = os.path.join("ssh_key", "key")
 
@@ -143,10 +141,6 @@ def waiting_for_installation_completion(controller):
         logging.info("Gathering sosreport data from host...")
         node = Nodes(controller, private_ssh_key_path=SSH_KEY)[0]
         gather_sosreport_data(node)
-
-        logging.info("Gathering information via must-gather...")
-        utils.recreate_folder(MUST_GATHER_DIR)
-        download_must_gather(KUBE_CONFIG, MUST_GATHER_DIR)
 
 
 def execute_ibip_flow(args):

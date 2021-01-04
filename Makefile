@@ -290,7 +290,12 @@ destroy_all_nodes:
 deploy_ibip: _test_setup
 	skipper make $(SKIPPER_PARAMS) _deploy_nodes $(SKIPPER_PARAMS) ADDITIONAL_PARAMS="'--bootstrap-in-place'" NUM_WORKERS=0 NUM_MASTERS=1 NAMESPACE_INDEX=0
 
-redeploy_nodes: destroy_nodes deploy_nodes
+redeploy_ibip: destroy_nodes deploy_ibip
+
+gather_ibip:
+	skipper run $(SKIPPER_PARAMS) 'discovery-infra/must_gather.py --kubeconfig build/ibip/auth/kubeconfig --dest-dir build/ibip/must-gather'
+
+redeploy_nodes: destroy_terraform destroy_nodes deploy_nodes
 
 redeploy_nodes_with_install: destroy_nodes deploy_nodes_with_install
 

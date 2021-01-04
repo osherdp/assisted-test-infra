@@ -15,6 +15,7 @@ import urllib3
 from dateutil.parser import isoparse
 
 from logger import log
+from must_gather import download_must_gather
 from test_infra.assisted_service_api import InventoryClient, create_client
 from test_infra.consts import ClusterStatus
 from test_infra.logs_utils import verify_logs_uploaded
@@ -145,12 +146,6 @@ def get_ui_url_from_api_url(api_url: str):
             return v
     else:
         raise KeyError(api_url)
-
-
-def download_must_gather(kubeconfig: str, dest_dir: str):
-    log.info(f"Downloading must-gather to {dest_dir}")
-    command = f"oc --insecure-skip-tls-verify --kubeconfig={kubeconfig} adm must-gather --dest-dir {dest_dir} > {dest_dir}/must-gather.log"
-    subprocess.run(command, shell=True)
 
 
 def handle_arguments():
